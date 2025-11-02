@@ -12,11 +12,7 @@ var data = {
 }
 
 var Choice = {
-	click: function (n) {
-		return function () {
-			data.selected = n
-		}
-	},
+	click: n => () => data.selected = n,
 	classes: function (n) {
 		if (data.selected === n) {
 			return "active"
