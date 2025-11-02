@@ -1,20 +1,31 @@
-const express = require("express")
+const express = require('express')
 const app = express()
-const path = require("path")
+const path = require('path')
 const port = process.env.PORT
-const pg = require("dotenv").config()
+const pg = require('pg')
 
-app.get("/", function (req, res) {
-	res.sendFile(path.join(__dirname + "/index.html"))
+const {Client} = pg
+const client = new Client()
+await client.connect()
+
+app.use(express.json())
+
+app.get('/', function (req, res) {
+	res.sendFile(path.join(__dirname + '/index.html'))
 })
 
-app.get("/style.css", function (req, res) {
-	res.sendFile(path.join(__dirname + "/style.css"))
+app.put('/submit', function (req, res) {
+	console.log('Received a submit request')
+	console.log('Request body:', req.body)
 })
 
-app.get("/app.js", function (req, res) {
-	res.sendFile(path.join(__dirname + "/app.js"))
+app.get('/style.css', function (req, res) {
+	res.sendFile(path.join(__dirname + '/style.css'))
+})
+
+app.get('/app.js', function (req, res) {
+	res.sendFile(path.join(__dirname + '/app.js'))
 })
 
 console.log(`PLANNING TO USE PORT: ${port}`)
-app.listen(port, "0.0.0.0", () => console.log(`Listening on port ${port}!`))
+app.listen(port, '0.0.0.0', () => console.log(`Listening on port ${port}!`))
